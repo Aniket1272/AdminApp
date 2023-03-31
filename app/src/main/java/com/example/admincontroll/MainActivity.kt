@@ -137,7 +137,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("test2", "test")
 
             val product = Product(
-                UUID.randomUUID().toString(),
                 name,
                 category,
                 price.toFloat(),
@@ -145,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                 images
             )
 
-            firestore.collection("Products").add(product).addOnSuccessListener {
+            firestore.collection("products").add(product).addOnSuccessListener {
                 state(true)
                 hideLoading()
             }.addOnFailureListener {
