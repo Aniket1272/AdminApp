@@ -128,6 +128,7 @@ class MainActivity : AppCompatActivity() {
         val category = binding.edCategory.text.toString().trim()
         val productDescription = binding.edDescription.text.toString().trim()
         val price = binding.edPrice.text.toString().trim()
+        val adminEmail = binding.email.text.toString().trim()
 
         lifecycleScope.launch {
             showLoading()
@@ -156,7 +157,8 @@ class MainActivity : AppCompatActivity() {
                 category,
                 price.toFloat(),
                 productDescription,
-                images
+                images,
+                adminEmail
             )
 
             firestore.collection("products").add(product).addOnSuccessListener {
