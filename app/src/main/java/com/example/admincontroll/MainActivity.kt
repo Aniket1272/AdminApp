@@ -68,6 +68,21 @@ class MainActivity : AppCompatActivity() {
             selectImagesActivityResult.launch(intent)
         }
 
+        binding.btnReset.setOnClickListener {
+            clearAll()
+        }
+
+    }
+
+    private fun clearAll() {
+        binding.apply {
+            edName.text.clear()
+            edCategory.text.clear()
+            edPrice.text.clear()
+            edDescription.text.clear()
+            selectedImages.clear()
+            tvSelectedImages.text = "0"
+        }
 
     }
 
