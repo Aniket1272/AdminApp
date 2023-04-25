@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        showMyApp()
 
         //4
         val selectImagesActivityResult =
@@ -48,7 +50,10 @@ class MainActivity : AppCompatActivity() {
                         val count = intent.clipData?.itemCount ?: 0
                         (0 until count).forEach {
                             val imagesUri = intent.clipData?.getItemAt(it)?.uri
-                            imagesUri?.let { selectedImages.add(it) }
+                            imagesUri?.let {
+                                Log.d("yooo", it.toString())
+                                selectedImages.add(it)
+                            }
                         }
 
                         //One images was selected
@@ -193,16 +198,46 @@ class MainActivity : AppCompatActivity() {
         return imagesByteArray
     }
 
-    private fun getSizesList(sizes: String): List<String>? {
-        if (sizes.isEmpty())
-            return null
-        val sizesList = sizes.split(",").map { it.trim() }
-        return sizesList
-    }
-
     //5
     private fun updateImages() {
-        binding.tvSelectedImages.setText(selectedImages.size.toString())
+        binding.tvSelectedImages.text = selectedImages.size.toString()
+    }
+
+    private fun showMyApp() {
+        when {
+            intent?.action == Intent.ACTION_SEND -> {
+                if (intent.type?.startsWith("image/") == true) {
+                    handleSendImage(intent) // Handle single image being sent
+                }
+            }
+            intent?.action == Intent.ACTION_SEND_MULTIPLE
+                    && intent.type?.startsWith("image/") == true -> {
+                handleSendMultipleImages(intent) // Handle multiple images being sent
+            }
+            else -> {
+                Toast.makeText(this@MainActivity, "Welcome", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun handleSendImage(intent: Intent) {
+        (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
+            // Update UI to reflect image being shared
+            selectedImages.add(it)
+            updateImages()
+        }
+    }
+
+    private fun handleSendMultipleImages(intent: Intent) {
+        intent.getParcelableArrayListExtra<Parcelable>(Intent.EXTRA_STREAM)?.let {
+            // Update UI to reflect multiple images being shared
+
+            it.forEach {
+                Log.d("mmme", it.toString())
+                selectedImages.add(it as Uri)
+                updateImages()
+            }
+        }
     }
 
 
