@@ -8,4 +8,9 @@
         android:title="Add product"
         android:iconTint="@color/white"/>
 
+    <item android:id="@+id/logOut"
+        android:icon="@drawable/ic_logout"
+        app:showAsAction="ifRoom"
+        android:title="logout"
+        android:iconTint="@color/white"/>
 </menu>
