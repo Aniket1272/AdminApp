@@ -1,7 +1,5 @@
 package com.example.admincontroll
 
-import android.provider.ContactsContract.CommonDataKinds.Email
-
 data class Product(
     val name: String,
     val category: String,

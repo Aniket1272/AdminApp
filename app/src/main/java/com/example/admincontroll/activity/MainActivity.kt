@@ -1,4 +1,4 @@
-package com.example.admincontroll
+package com.example.admincontroll.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -16,7 +16,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
+import com.example.admincontroll.Product
+import com.example.admincontroll.R
 import com.example.admincontroll.databinding.ActivityMainBinding
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     var selectedImages = mutableListOf<Uri>()
     val firestore = Firebase.firestore
+    val firebaseAuth = Firebase.auth
 
     private val storage = Firebase.storage.reference
 
@@ -107,6 +111,12 @@ class MainActivity : AppCompatActivity() {
             saveProducts() {
                 Log.d("test", it.toString())
             }
+        }
+        if (item.itemId == R.id.logOut) {
+            firebaseAuth.signOut()
+            val intent = Intent(this, LoginRegisterActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
     }
