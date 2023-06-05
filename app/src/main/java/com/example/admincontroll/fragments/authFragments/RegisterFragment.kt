@@ -1,4 +1,4 @@
-package com.example.admincontroll
+package com.example.admincontroll.fragments.authFragments
 
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.admincontroll.R
 import com.example.admincontroll.databinding.FragmentRegisterBinding
 import com.example.admincontroll.model.User
 import com.example.admincontroll.utils.RegisterValidation
@@ -17,6 +18,8 @@ import com.example.admincontroll.utils.Resource
 import com.example.admincontroll.viewmodels.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
@@ -51,7 +54,7 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewmodel.register.collect {
                 when(it) {
                     is Resource.Loading -> {
@@ -71,7 +74,7 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewmodel.validation.collect { validation ->
                 if(validation.email is RegisterValidation.Failed) {
                     withContext(Dispatchers.Main) {

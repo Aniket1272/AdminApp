@@ -1,4 +1,4 @@
-package com.example.admincontroll
+package com.example.admincontroll.fragments.authFragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.admincontroll.R
 import com.example.admincontroll.activity.MainActivity
 import com.example.admincontroll.databinding.FragmentLoginBinding
 import com.example.admincontroll.utils.RegisterValidation

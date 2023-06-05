@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/addProductFragment">
+
+    <fragment
+        android:id="@+id/userOrderFragment"
+        android:name="com.example.admincontroll.fragments.controlHome.UserOrderFragment"
+        android:label="fragment_user_order"
+        tools:layout="@layout/fragment_user_order" >
+        <action
+            android:id="@+id/action_userOrderFragment_to_userOrderDetailsFragment"
+            app:destination="@id/userOrderDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userOrderDetailsFragment"
+        android:name="com.example.admincontroll.fragments.controlHome.UserOrderDetailsFragment"
+        android:label="fragment_user_order_details"
+        tools:layout="@layout/fragment_user_order_details" >
+        <argument
+            android:name="orders"
+            app:argType="com.example.admincontroll.model.Orders" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProductFragment"
+        android:name="com.example.admincontroll.fragments.controlHome.AddProductFragment"
+        android:label="AddProductFragment"
+        tools:layout="@layout/fragment_add_product" />
+</navigation>

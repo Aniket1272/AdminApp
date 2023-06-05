@@ -1,5 +1,7 @@
 package com.example.admincontroll.utils
 
+import com.example.admincontroll.model.User
+
 sealed class Resource<T>(
     val data: T? = null,
     val message: String? = null

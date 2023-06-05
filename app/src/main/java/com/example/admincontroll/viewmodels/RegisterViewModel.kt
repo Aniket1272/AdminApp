@@ -2,7 +2,11 @@ package com.example.admincontroll.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.admincontroll.model.User
-import com.example.admincontroll.utils.*
+import com.example.admincontroll.utils.RegisterFieldState
+import com.example.admincontroll.utils.RegisterValidation
+import com.example.admincontroll.utils.Resource
+import com.example.admincontroll.utils.validateEmail
+import com.example.admincontroll.utils.validationPassword
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,14 +31,14 @@ class RegisterViewModel @Inject constructor(
 
 
     fun crateAccountWithEmailAndPassword(user: User) {
-        if(checkValidation(user)) {
+        if (checkValidation(user)) {
             runBlocking {
                 _register.emit(Resource.Loading())
             }
             firebaseAuth.createUserWithEmailAndPassword(user.emailOfCompany, user.password)
                 .addOnSuccessListener {
                     it.user?.let { fireUser ->
-                        saveUserInfo(user)
+                        saveUserInfo(fireUser.uid, user)
                     }
                 }
                 .addOnFailureListener {
@@ -54,8 +58,8 @@ class RegisterViewModel @Inject constructor(
     }
 
 
-    private fun saveUserInfo(user: User) {
-        db.collection("Admin").document(user.companyName)
+    private fun saveUserInfo(userUid: String, user: User) {
+        db.collection("Admin").document(userUid)
             .set(user)
             .addOnSuccessListener {
                 _register.value = Resource.Success(user)
@@ -63,6 +67,7 @@ class RegisterViewModel @Inject constructor(
             .addOnFailureListener {
                 _register.value = Resource.Error(it.message.toString())
             }
+
     }
 
     private fun checkValidation(user: User): Boolean {
